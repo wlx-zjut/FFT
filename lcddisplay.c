@@ -198,6 +198,39 @@ void ShowNum(int x,int y,int num)
         }
     }
 }
+
+unsigned char number_none[5] = {0x00,0x00,0x00,0x00,0x00};/*"0",0*/
+void ShowNum_none(int x,int y)
+{
+    int i,j,Left_or_Right;
+    Left_or_Right=x;//变量Left_or_Right用来判断处于左右半屏的哪一块，统一屏幕显示代码
+    for(i=0;i<1;i++)
+    {
+        CTRLCDCMDR=LCDCMDPAGE+y;  //选页
+        Delay(1);
+        CTRLCDCR=0;
+        if(Left_or_Right<64)
+            CTRLCDCMDR=LCDCMDVERADDRESS+x;  // 起始列
+        else
+            CTRLCDCMDR=LCDCMDVERADDRESS+x-64;   //右半屏额外-64
+        Delay(1);
+        CTRLCDCR=0;
+        Delay(1);
+        for(j=0;j<5;j++)
+        {
+            if(Left_or_Right<64)
+                CTRLCDLCR =  number_none[j];//左半屏数据写入
+            else
+                CTRLCDRCR=number_none[j];//右半屏数据写入
+            Delay(1);
+            CTRLCDCR=0;
+            Delay(1);
+        }
+    }
+}
+
+
+
 void Init_gra()
 {
     int i,j;
@@ -424,26 +457,36 @@ void update_show_num(){
     gewei=freq_min%10;
     if(shiwei !=0)
         ShowNum(11,7,shiwei);
+    else
+        ShowNum_none(11,7);
     ShowNum(16,7,gewei);
     shiwei=(freq_min+magn_flag)/10;
     gewei=(freq_min+magn_flag)%10;
     if(shiwei !=0)
         ShowNum(32,7,shiwei);
+    else
+        ShowNum_none(32,7);
     ShowNum(37,7,gewei);
     shiwei=(freq_min+magn_flag*2)/10;
     gewei=(freq_min+magn_flag*2)%10;
     if(shiwei !=0)
         ShowNum(53,7,shiwei);
+    else
+        ShowNum_none(53,7);
     ShowNum(58,7,gewei);
     shiwei=(freq_min+magn_flag*3)/10;
     gewei=(freq_min+magn_flag*3)%10;
     if(shiwei !=0)
         ShowNum(74,7,shiwei);
+    else
+        ShowNum_none(74,7);
     ShowNum(79,7,gewei);
     shiwei=(freq_min+magn_flag*4)/10;
     gewei=(freq_min+magn_flag*4)%10;
     if(shiwei !=0)
         ShowNum(97,7,shiwei);
+    else
+        ShowNum_none(97,7);
     ShowNum(102,7,gewei);
 }
 

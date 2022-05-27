@@ -33,7 +33,7 @@ void interrupt XINT2()
     }
 
 
-	if(scanKey==4  &&  magn_flag>1){
+	if(scanKey==4  &&  magn_flag>1 && (freq_min+(magn_flag-1)*5)<=20){
 	        magn_flag--;
 	        if(magn_flag==3)  magn_flag=2;
 	        freq_max=freq_min+magn_flag*5;
@@ -63,9 +63,16 @@ void interrupt XINT2()
     if(scanKey==3){
         insert_flag=0;
         start_freq=0;
+        magn_change_level=4;
         insert_flag_freq_change=1;
-
-
+    }
+    if(scanKey==7 &&  (start_freq-1+magn_flag*5)>=0){
+        start_freq--;
+        insert_flag_freq_change=1;
+    }
+    if(scanKey==9 && (start_freq+1+magn_flag*5)<=20){
+        start_freq++;
+        insert_flag_freq_change=1;
     }
 
 }
