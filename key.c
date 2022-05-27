@@ -66,7 +66,7 @@ void interrupt XINT2()
         magn_change_level=4;
         insert_flag_freq_change=1;
     }
-    if(scanKey==7 &&  (start_freq-1+magn_flag*5)>=0){
+    if(scanKey==7 &&  (start_freq-1)>=0){
         start_freq--;
         insert_flag_freq_change=1;
     }

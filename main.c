@@ -60,7 +60,7 @@ void main()
             }
             for(i=0;i<105;i++){
                 show_data_x=(long)(freq_min*128.0/24+i*magn_flag*1.0/4);
-                show_data_y=(long)(final[show_data_x]*144/18000);
+                show_data_y=(long)(final[show_data_x]*144/17000);
                 show_data_y/=magn_change_level;
                 if(show_data_y<0) show_data_y=0;
                 finally[i]=show_data_y;
