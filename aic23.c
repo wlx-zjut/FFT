@@ -143,10 +143,9 @@ int nWork;
 FARPTR lpWork;
 long int luWork,luWork1;
 short sample[256];
-short sample_512[512];
 void AIC23_Mixer_Init(){
     lpWork=lpAudio=AUDIOBUFFER; luWork=0;      //音频缓冲区
-      for ( luWork1=0;luWork1<1024;luWork1++ )
+      for ( luWork1=0;luWork1<512;luWork1++ )
           far_poke(lpWork++,0);
       lpWork=lpAudio;
 }
@@ -155,7 +154,7 @@ void AIC23_Mixer()
 {
     while (!ReadMask(pMCBSP0 -> spcr2, SPCR2_XRDY));
     lpWork=lpAudio;
-    for(luWork=0;luWork<512;luWork++){
+    for(luWork=0;luWork<256;luWork++){
         while(!ReadMask(pMCBSP0 -> spcr2, SPCR2_XRDY)); // 等待McBSP0准备好
         nWork=Read(pMCBSP0->drr2);  // 读取左右声道的数据到nWork
         nWork=Read(pMCBSP0->drr1);  // 这里假设两个声道相同，所以都输入到nWork，其中一个声道是被覆盖的。
@@ -163,8 +162,7 @@ void AIC23_Mixer()
         far_poke(lpWork++,nWork);   // 读取的左右声道数据保存到缓冲区lpWork
         Write(pMCBSP0->dxr2,nWork); // 送数据到McBSP0，声音输出由AIC23完成
         Write(pMCBSP0->dxr1,nWork); // 这里两个声道相同，都从nWork输出。
-        if(luWork<256) sample[luWork]=nWork;
-        sample_512[luWork]=nWork;
+        sample[luWork]=nWork;
 
     }
 }

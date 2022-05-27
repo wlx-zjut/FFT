@@ -12,7 +12,6 @@
 void wait( unsigned int cycles );
 void EnableAPLL( );
 extern short sample[256];
-extern short sample_512[512];
 long final[128];
 double final_phase[128];
 int finally_phase[105];
@@ -46,7 +45,6 @@ void main()
         AIC23_Mixer();
         AIC23_Mixer();
         rfft(sample,256,SCALE);
-        rfft(sample_512,512,SCALE);
         final[0]=sample[0];
         for(i=1;i<128;i++){
            final[i]=(long)sqrt((long)sample[2*i]*(long)sample[2*i]+(long)sample[2*i+1]*(long)sample[2*i+1]);
